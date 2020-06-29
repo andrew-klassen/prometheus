@@ -1,0 +1,25 @@
+
+- name: create prometheus group
+  group:
+    name: prometheus
+    state: present
+
+- name: add vault user
+  user:
+    name: prometheus
+    shell: '/bin/false'
+
+- name: create prometheus directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0775'
+  with_items:
+    - /var/lib/prometheus
+    - /etc/prometheus
+    - /etc/prometheus/rules
+    - /etc/prometheus/rules.d
+    - /etc/prometheus/files_sd
+
